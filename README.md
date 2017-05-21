@@ -10,11 +10,11 @@ CueMate is a python script that was inspired because vlc would not play wav and 
 ### Windows
 
 #### Method 1 
-  * place main3.py in directory that includes the .cue file and all corrisponding .wav or .flac files.
+  * place main.py in directory that includes the .cue file and all corrisponding .wav or .flac files.
   * double click on main.py to run the script.
   * done :D
 #### Method 2
-  * place main3.py in directory that includes the .cue file and all corrisponding .wav or .flac files.
+  * place main.py in directory that includes the .cue file and all corrisponding .wav or .flac files.
   * shift+right click in the directory and click "open powershell window here" or  "open command prompt here"
   * then type "py main.py" or "python main.py"
   * done :D
