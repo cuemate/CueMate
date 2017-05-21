@@ -1,5 +1,4 @@
 import glob
-import unicodedata
 import os
 import shutil
 
@@ -24,10 +23,18 @@ FinalCue = open(CueFileDir[0], "w")
 FinalCue.write(str(FixCueData))
 FinalCue.close()
 
-#--------------------------------------------WAV Fix
+#--------------------------------------------WAV/FLAC Fix
 
 #pull file name from specified extension file 
-DirNameList = glob.glob('*.wav')
+DirNameList = []
+print(DirNameList)
+#pull file name from specified extension files like wav, flac and soon mp3
+DirNameListWAVS = glob.glob('*.wav')
+print(DirNameListWAVS)
+DirNameListFLACS = glob.glob('*.flac')
+print(DirNameListFLACS)
+#if wav files exist they will be added the main list
+DirNameList = DirNameList + DirNameListFLACS + DirNameListWAVS
 
 #numList is the number of items in list
 numList = len(DirNameList)
@@ -36,13 +43,13 @@ numList = len(DirNameList)
 FixDirNameList = []
 
 #loop variable i from 0 - numlist with steps adding 1 each loop
-for i in range(0,numList,1):
+for i in range(0, numList, 1):
 	#replaces the unsupported char to utf-8 freindly,
 	#then (Acute accent or u'\x92') 			to 	(Apostrophe or u"\u0027"), 
 	#then (Grave accent or u'\xb4') 			to 	(Apostrophe or u"\u0027"), 
 	#then encodes it back to latin-1/ANSI with friendly supported ANSI chars, 
 	#this is called FixDirName
-	FixDirName = DirNameList[i].replace( u"\u2018" , u"\u0027").replace( u"\u2019" , u"\u0027").replace(u"\u2010" , u"\u002D").replace(u"\u201D" , '').replace(u"\u201C" , '')
+	FixDirName = DirNameList[i].replace( u"\u2018", u"\u0027").replace( u"\u2019", u"\u0027").replace(u"\u2010", u"\u002D").replace(u"\u201D", '').replace(u"\u201C", '')
 	#add the created item to list FixDirNameList
 	FixDirNameList.append(FixDirName)
 	
@@ -100,8 +107,6 @@ for i in range(0,allFilenumList,1):
 		
 #how many elements are in the notpyFileList. call this numnotpyFileList
 numnotpyFileList = len(notpyFileList)
-print(pyFileList)
-print(notpyFileList)
 #--------------2 pull title and artist for folder creation and placement
 FixCueDataPerformer = FixCueData.find('PERFORMER')
 FixCueDataTitle = FixCueData.find('TITLE')
@@ -117,7 +122,4 @@ if not os.path.exists(artist + '\\' + CueFileName):
 for i in range(0,numnotpyFileList,1):	
 	src0 = os.path.abspath(notpyFileList[i])
 	dst0 = os.path.abspath(CueFileDir[0]).replace('\\' + CueFileDir[0], '\\' + artist + "\\" + CueFileDir[0].replace(".cue", "\\").replace('.','') + notpyFileList[i])
-	#dst0 = os.path.abspath(CueFileDir[0]).replace('\\' + CueFileDir[0], '\\' + artist + "\\" + CueFileDir[0].replace(".cue", "\\") + notpyFileList[i])
 	shutil.move(src0, dst0)
-
-
